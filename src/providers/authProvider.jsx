@@ -1,5 +1,6 @@
-import * as React from "react";
+import React, {Component} from "react";
 import AuthService from "../services/authService";
+
 const AuthContext = React.createContext({
     signinRedirectCallback: () => ({}),
     logout: () => ({}),
@@ -12,7 +13,7 @@ const AuthContext = React.createContext({
 
 export const AuthConsumer = AuthContext.Consumer;
 
-export class AuthProvider extends React.Component {
+export class AuthProvider extends Component {
     authService;
     constructor(props) {
         super(props);

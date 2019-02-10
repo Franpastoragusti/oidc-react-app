@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const PublicPage = () => {
+export const PrivatePage = () => {
     return (
         <div>
-            Public page
+            Private page
         </div>
     );
 };
