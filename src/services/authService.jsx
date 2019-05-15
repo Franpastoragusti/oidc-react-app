@@ -111,37 +111,6 @@ export default class AuthService {
     return this.UserManager.createSigninRequest();
   };
 
-  setCookie = (name, value, options) => {
-    options = options || {};
-    let expires = options.expires;
-    if (typeof expires === "number" && expires) {
-      const d = new Date();
-      d.setTime(d.getTime() + expires * 1000);
-      expires = options.expires = d;
-    }
-    if (expires && expires.toUTCString) {
-      options.expires = expires.toUTCString();
-    }
-    value = encodeURIComponent(value);
-    let updatedCookie = name + "=" + value;
-    options.forEach(propName => {
-      updatedCookie += "; " + propName;
-      const propValue = options[propName];
-      if (propValue !== true) {
-        updatedCookie += "=" + propValue;
-      }
-    });
-    document.cookie = updatedCookie;
-  };
-
-  deleteCookies = names => {
-    for (let i = 0; i < names.lenght; i++) {
-      this.setCookie(names[i], "", {
-        expires: -1
-      });
-    }
-  };
-
   logout = () => {
     this.UserManager.signoutRedirect({
       id_token_hint: localStorage.getItem("id_token")
@@ -152,7 +121,6 @@ export default class AuthService {
   signoutRedirectCallback = () => {
     this.UserManager.signoutRedirectCallback().then(() => {
       localStorage.clear();
-      this.deleteCookies(["idsrv.session"]);
       window.location.replace(process.env.REACT_APP_PUBLIC_URL);
     });
     this.UserManager.clearStaleState();
