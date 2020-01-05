@@ -11,17 +11,26 @@ import { PublicPage } from "../components/publicPage";
 import { PrivatePage } from "../components/privatePage";
 
 export const Routes = (
-  <Switch>
-    <Route exact={true} path="/signin-oidc" component={Callback} />
-    <Route exact={true} path="/logout" component={Logout} />
-    <Route exact={true} path="/logout/callback" component={LogoutCallback} />
-    <Route
-      exact={true}
-      path="/:lng(en|es|de|fr|pt|it)/register/:form?"
-      component={Register}
-    />
-    <Route exact={true} path="/silentrenew" component={SilentRenew} />
-    <PrivateRoute path="/private" component={PrivatePage} />
-    <Route path="/" component={PublicPage} />
-  </Switch>
+    <Switch>
+        <Route exact={true} path="/signin-oidc" component={Callback} />
+        <Route exact={true} path="/logout" component={Logout} />
+        <Route
+            exact={true}
+            path="/logout/callback"
+            component={LogoutCallback}
+        />
+        <Route
+            exact={true}
+            path="/:lng(en|es|de|fr|pt|it)/register/:form?"
+            component={Register}
+        />
+        <Route exact={true} path="/silentrenew" component={SilentRenew} />
+        <PrivateRoute
+            path="/:lng(en|es|de|fr|pt|it)/dashboard"
+            component={PrivatePage}
+        />
+        <PrivateRoute path="/dashboard" component={PrivatePage} />
+
+        <Route path="/" component={PublicPage} />
+    </Switch>
 );
