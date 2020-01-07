@@ -8,7 +8,7 @@ export default class AuthService {
     constructor() {
         this.UserManager = new UserManager({
             ...IDENTITY_CONFIG,
-            userStore: new WebStorageStateStore({ store: window.localStorage }),
+            userStore: new WebStorageStateStore({ store: window.sessionStorage }),
             metadata: {
                 ...METADATA_OIDC
             }
@@ -16,15 +16,7 @@ export default class AuthService {
         // Logger
         Log.logger = console;
         Log.level = Log.DEBUG;
-
         this.UserManager.events.addUserLoaded((user) => {
-            this.accessToken = user.access_token;
-            localStorage.setItem("access_token", user.access_token);
-            localStorage.setItem("id_token", user.id_token);
-            this.setUserInfo({
-                accessToken: this.accessToken,
-                idToken: user.id_token
-            });
             if (window.location.href.indexOf("signin-oidc") !== -1) {
                 this.navigateToScreen();
             }
@@ -45,6 +37,7 @@ export default class AuthService {
         });
     };
 
+
     getUser = async () => {
         const user = await this.UserManager.getUser();
         if (!user) {
@@ -59,34 +52,22 @@ export default class AuthService {
         return JSON.parse(window.atob(base64));
     };
 
-    setUserInfo = (authResult) => {
-        const data = this.parseJwt(this.accessToken);
-
-        this.setSessionInfo(authResult);
-        this.setUser(data);
-    };
 
     signinRedirect = () => {
         localStorage.setItem("redirectUri", window.location.pathname);
         this.UserManager.signinRedirect({});
     };
 
-    setUser = (data) => {
-        localStorage.setItem("userId", data.sub);
-    };
 
     navigateToScreen = () => {
         window.location.replace("/en/dashboard");
     };
 
-    setSessionInfo(authResult) {
-        localStorage.setItem("access_token", authResult.accessToken);
-        localStorage.setItem("id_token", authResult.idToken);
-    }
 
     isAuthenticated = () => {
-        const access_token = localStorage.getItem("access_token");
-        return !!access_token;
+        const oidcStorage = JSON.parse(sessionStorage.getItem(`oidc.user:${process.env.REACT_APP_AUTH_URL}:${process.env.REACT_APP_IDENTITY_CLIENT_ID}`))
+
+        return (!!oidcStorage && !!oidcStorage.access_token)
     };
 
     signinSilent = () => {
