@@ -26,7 +26,7 @@ export const Routes = (
         />
         <Route exact={true} path="/silentrenew" component={SilentRenew} />
         <PrivateRoute
-            path="/:lng(en|es|de|fr|pt|it)/dashboard"
+            path="/private"
             component={PrivatePage}
         />
         <PrivateRoute path="/dashboard" component={PrivatePage} />

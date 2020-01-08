@@ -3,7 +3,6 @@ import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 
 export default class AuthService {
     UserManager;
-    accessToken;
 
     constructor() {
         this.UserManager = new UserManager({
