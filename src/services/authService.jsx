@@ -33,9 +33,14 @@ export default class AuthService {
       console.log("silent renew error", e.message);
     });
 
-    this.UserManager.events.addAccessTokenExpired(() => {
-      console.log("token expired");
+    this.UserManager.events.addAccessTokenExpiring(() => {
+      console.log("token expiring");
       this.signinSilent();
+    });
+
+    this.UserManager.events.addAccessTokenExpired(() => {
+        console.log("token expired");
+        this.logout();
     });
   }
 
