@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import AuthService from "../services/authService";
 
 const AuthContext = React.createContext({
