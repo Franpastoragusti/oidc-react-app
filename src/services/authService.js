@@ -26,7 +26,7 @@ export default class AuthService {
 
         this.UserManager.events.addAccessTokenExpired(() => {
             console.log("token expired");
-            this.signinSilent();
+            this.logout();
         });
     }
 
